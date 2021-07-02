@@ -1,0 +1,55 @@
+.electronbar {
+  font-size: 13px;
+  color: var(--text-grey);
+  font-weight: 500;
+  background-color: #0b0e11;
+}
+
+.electronbar-top-menu-item-label,
+.electronbar-menu-item {
+  color: var(--text-grey);
+  cursor: pointer;
+}
+
+.electronbar-top-menu-item-children,
+.electronbar-menu-item-children {
+  background-color: #252526;
+  box-shadow: none;
+  padding: 0;
+}
+
+.electronbar-menu-item {
+  padding: 3px 8px;
+}
+
+.electronbar-top-menu-item:not(.disabled):hover,
+.electronbar-top-menu-item.open .electronbar-top-menu-item-label,
+.electronbar-menu-item.open,
+.electronbar-menu-item:not(.disabled):hover {
+  background-color: #2b3139;
+  color: #fff;
+}
+
+.electronbar-seperator hr {
+  display: none;
+}
+
+.electronbar-menu > .electronbar-top-menu-item:last-child {
+  background-color: var(--yellow);
+  color: #333;
+  font-weight: 500;
+}
+
+.electronbar-menu > .electronbar-top-menu-item:last-child:hover {
+  background-color: var(--yellow-darker);
+}
+
+.electronbar-menu
+  > .electronbar-top-menu-item:last-child
+  .electronbar-top-menu-item-label {
+  color: #333;
+}
+
+.electronbar-favicon {
+  padding: 2px 7px;
+}

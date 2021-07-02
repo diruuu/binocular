@@ -1,0 +1,21 @@
+@keyframes animateLogo {
+  from {
+    transform: translateY(450px);
+  }
+
+  to {
+    transform: translateY(-450px);
+  }
+}
+
+.logo {
+  transform: translateY(450px);
+  animation-name: animateLogo;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.noAnimation {
+  animation: none;
+}

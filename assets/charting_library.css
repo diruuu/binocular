@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+.theme-dark:root {
+  --tv-color-pane-background: #131722;
+  --tv-color-platform-background: #2a2d2e;
+}
+
+.selectable,
+body,
+html,
+input,
+textarea {
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, Segoe UI,
+    Helvetica, Arial, sans-serif;
+}

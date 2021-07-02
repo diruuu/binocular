@@ -1,0 +1,109 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.table {
+  width: 100%;
+  font-size: 13px;
+  border-spacing: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+}
+
+.rowGroup {
+  flex: 1;
+}
+
+.tableHeader {
+  color: #787b86;
+  font-weight: 400;
+  text-align: right;
+  height: 31px;
+}
+
+.tableCell {
+  color: var(--text-bright);
+  text-align: right;
+  border-bottom: 1px solid var(--border-color);
+  height: 32px;
+}
+
+.tr {
+  width: 100% !important;
+  display: flex;
+  align-items: center;
+}
+
+.tableCell,
+.tableHeader {
+  line-height: 1;
+  padding: 7px 0;
+}
+
+.tableCell:first-child,
+.tableHeader:first-child,
+.tableCell:nth-child(2),
+.tableHeader:nth-child(2) {
+  text-align: left;
+}
+
+.tableCell:nth-child(2),
+.tableHeader:nth-child(2) {
+  padding-left: 10px;
+}
+
+.tableCell:last-child,
+.tableHeader:last-child {
+  padding-right: 16px;
+}
+
+.isBad {
+  color: var(--red);
+}
+
+.isGood {
+  color: var(--green);
+}
+
+.isConcerning {
+  color: var(--yellow);
+}
+
+.id {
+  max-width: 41px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emptyState {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 40px;
+}
+
+.sellButton {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--yellow);
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sellButton:hover {
+  color: var(--yellow-darker);
+}
+
+.shadowed {
+  opacity: 0.5;
+}

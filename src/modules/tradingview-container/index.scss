@@ -1,0 +1,23 @@
+.TVChartContainer {
+  height: 100%;
+}
+
+.plurb_exchange_button {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  position: relative;
+}
+
+.plurb_exchange_button:before {
+  content: '';
+  height: 3px;
+  background-color: #f44336;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}

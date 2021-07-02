@@ -1,0 +1,149 @@
+.wrapper {
+  padding-bottom: 20px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.amountForm {
+  display: flex;
+  background: var(--input-bg-color);
+  align-items: center;
+  height: 31px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.amountInput {
+  width: 100%;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  height: 100%;
+  padding: 0 10px;
+  font-size: 13px;
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.amountButton {
+  font-size: 13px;
+  color: var(--yellow);
+  font-weight: 500;
+  outline: 0;
+  height: 100%;
+  padding: 0 4px;
+  background-color: transparent;
+  border: 0;
+  min-width: 37px;
+  border-left: 0;
+  cursor: pointer;
+}
+
+.amountButton:hover {
+  background-color: var(--input-bg-color-secondary);
+  color: var(--text-bright);
+}
+
+.stopLossWrapper {
+  display: flex;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-top: 10px;
+}
+
+.stopLossInput {
+  width: 100%;
+  flex: 1;
+  background: var(--input-bg-color);
+  border: 0;
+  outline: 0;
+  height: 100%;
+  padding: 0 10px;
+  font-size: 13px;
+  color: var(--text-bright);
+  height: 31px;
+  border-radius: 4px;
+}
+
+.stopLossInput[disabled] {
+  background: var(--input-bg-color-secondary);
+  cursor: not-allowed;
+}
+
+.stopLossGrid {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.stopLossTitle {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stopLossCheckbox {
+  margin-right: 5px;
+}
+
+.stopLossCheckboxWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.submitButtonWrapper {
+  margin-top: 15px;
+}
+
+.submitButton {
+  background-color: var(--yellow);
+  border: 0;
+  color: var(--text-contrast);
+  width: 100%;
+  outline: 0;
+  font-weight: 500;
+  cursor: pointer;
+  height: 31px;
+  transition: background-color 0.5s;
+  border-radius: 4px;
+}
+
+.submitButton:hover {
+  background-color: var(--yellow-darker);
+}
+
+.submitButton[disabled] {
+  cursor: not-allowed;
+  background-color: var(--button-disabled);
+  color: var(--text-grey);
+}
+.notice {
+  text-align: center;
+  padding: 30px 25px;
+}
+
+.profitString {
+  color: #009688 !important;
+}
+.lossString {
+  color: #f44336 !important;
+}
+
+.button {
+  margin: 0;
+  padding: 2px 6px;
+  border: 0;
+  font-size: inherit;
+  font-weight: 500;
+  border-radius: 3px;
+  outline: 0;
+  line-height: 1;
+  color: #333;
+  cursor: pointer;
+  background: #fcd536;
+  border-radius: 2px;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "binocular",
+  "productName": "Binocular",
+  "version": "1.2.0",
+  "description": "An opinionated Binance client for crypto trading.",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Rudi Wahyudi",
+    "email": "diruuu@yahoo.com",
+    "url": "https://github.com/diruuu/binocular"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../.erb/scripts/BabelRegister.js ../.erb/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bnb-tx-decoder": "https://github.com/ferrumnet/bnb-tx-decoder"
+  }
+}
