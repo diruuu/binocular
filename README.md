@@ -15,6 +15,12 @@ Where to download? Find the latest release on [the release page](https://github.
 ## Getting started
 Open [instalation documentation](https://github.com/diruuu/binocular/wiki/Installation) to see to see how to install it on your Windows, macOs, or Linux machine.
 
+Or watch my video series on Youtube where I explain anything about the app and how to get started using it.
+
+<a href="https://www.youtube.com/watch?v=pH4TQ20CQF0&list=PLp3fpHrBrLgw76tHCSzEJeRIoeQz5QtpV
+" target="_blank"><img src="http://img.youtube.com/vi/pH4TQ20CQF0/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="350" border="10" /></a>
+
 ## Documentation
 Open [wiki](https://github.com/diruuu/binocular/wiki) to see the complete documentation of this software.
 
@@ -68,6 +74,4 @@ This is basically a non-profit one-man project. I dedicated my weekend to work o
 ### Software Certification
 The Windows version and macOs version of this app haven't been certified. The cost of certificates for both platform are expensive and must be renewed every year. The impact of this is everyone who install this app will see warning from Windows and macOs before they began the installation. While you can basically bypass that warning, I think it's important for everyone to trust this app when they're not seeing the warning at all.
 
-This is the point where I think donation could help. If you want to help me purchasing these certificates, consider to donate some money to my crypto wallet (BTC, ETH and BNB). You can find my wallet addressed on this [donation page](https://github.com/diruuu/binocular/wiki/How-to-Donate-to-This-Project).
-
-Lastly, to make it transparent, I will put a table of certification cost below.
+This is the point where I think donation could help. If you want to help me purchasing these certificates, consider to donate some money to my crypto wallet (BTC, ETH and BNB). You can find my wallet addressed on this [donation page](https://github.com/diruuu/binocular/wiki/How-to-Donate-to-This-Project)
