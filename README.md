@@ -8,7 +8,7 @@ Where to download? Find the latest release on [the release page](https://github.
 
 | Latest                                                                                                                                                                                  | Beta                                                                                                                                                                                   | Alpha                                                                                                                                                                                   |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [![Latest](https://github.com/diruuu/binocular/actions/workflows/publish.yml/badge.svg?branch=main)](https://github.com/diruuu/binocular/actions/workflows/publish.yml)                 | [![Beta build](https://github.com/diruuu/binocular/actions/workflows/publish.yml/badge.svg?branch=beta)](https://github.com/diruuu/binocular/actions/workflows/publish.yml)            | [![Alpha build](https://github.com/diruuu/binocular/actions/workflows/publish.yml/badge.svg?branch=alpha)](https://github.com/diruuu/binocular/actions/workflows/publish.yml)           |
+| [![Latest](https://github.com/diruuu/binocular/actions/workflows/publish.yml/badge.svg?branch=main)](https://github.com/diruuu/binocular/releases)                 | [![Beta build](https://github.com/diruuu/binocular/actions/workflows/publish.yml/badge.svg?branch=beta)](https://github.com/diruuu/binocular/releases)            | [![Alpha build](https://github.com/diruuu/binocular/actions/workflows/publish.yml/badge.svg?branch=alpha)](https://github.com/diruuu/binocular/releases)           |
 
 ![Screenshot 2021-07-03 184715](https://user-images.githubusercontent.com/6884679/124353186-3ecb0c00-dc2f-11eb-8ee4-093474910418.png)
 
@@ -59,5 +59,15 @@ Price changes on all cryto pairs are displayed in realtime. You can favorite you
 ## How to run this project on your local development machine
 This is for developers / contributors who want to contribute to this project. If you just want to use this app, this section is not for you. See documentation about [Instalation](https://github.com/diruuu/binocular/wiki/Installation) here if you want to know how to install this software on Windows, macOs or Linux.
 
-## How to support this project
-This is basically a one-man project. 
+## How to support this project?
+This is basically a non-profit one-man project. I dedicated my weekend to work on this project and I couldn't do this for a long time without your supports. To support this project, you have 2 options:
+  1. If you are a Typescript / Electron developer, you can help me fix bugs or add new feature by sending pull request to this repo.
+  2. You can also donate some BTC, ETH or BNB to my wallet to make sure that I always have a glass of coffee whenever I work on this project. To donate, you can find my wallet addressed on this [donation page](https://github.com/diruuu/binocular/wiki/How-to-Donate-to-This-Project)
+
+## To do
+### Software Certification
+The Windows version and macOs version of this app haven't been certified. The cost of certificates for both platform are expensive and must be renewed every year. The impact of this is everyone who install this app will see warning from Windows and macOs before they began the installation. While you can basically bypass that warning, I think it's important for everyone to trust this app when they're not seeing the warning at all.
+
+This is the point where I think donation could help. If you want to help me purchasing these certificates, consider to donate some money to my crypto wallet (BTC, ETH and BNB). You can find my wallet addressed on this [donation page](https://github.com/diruuu/binocular/wiki/How-to-Donate-to-This-Project).
+
+Lastly, to make it transparent, I will put a table of certification cost below.
