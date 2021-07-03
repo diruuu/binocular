@@ -17,8 +17,7 @@ Open [instalation documentation](https://github.com/diruuu/binocular/wiki/Instal
 
 Or watch my video series on Youtube where I explain anything about the app and how to get started using it.
 
-<a href="https://www.youtube.com/watch?v=pH4TQ20CQF0&list=PLp3fpHrBrLgw76tHCSzEJeRIoeQz5QtpV
-" target="_blank"><img src="http://img.youtube.com/vi/pH4TQ20CQF0/0.jpg" 
+<a href="https://www.youtube.com/watch?v=pH4TQ20CQF0&list=PLp3fpHrBrLgw76tHCSzEJeRIoeQz5QtpV" target="_blank" rel="nofollow"><img src="http://img.youtube.com/vi/pH4TQ20CQF0/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="350" border="10" /></a>
 
 ## Documentation
