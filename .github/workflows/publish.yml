@@ -8,8 +8,8 @@ on:
       - alpha
 
 jobs:
-  environment: ${{ github.ref }}
   publish:
+    environment: ${{ github.ref }}
     runs-on: ${{ matrix.os }}
 
     strategy:
