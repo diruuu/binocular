@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - beta
-      - alpha
 
 jobs:
   publish:
@@ -22,8 +20,7 @@ jobs:
 
       - name: Update channel package.json version
         run: |
-          echo "branch name is ${{ env.BRANCH_NAME }}."
-          echo "release tag is ${{ env.RELEASE_TAG_NAME }}."
+          node -e "let pkg=require('./package.json'); pkg.version=pkg.version + (${{ env.RELEASE_TAG_NAME }} ? '-' + ${{ env.RELEASE_TAG_NAME }} : ''); require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
+          cat ./package.json
         env:
           RELEASE_TAG_NAME: '${{ secrets.RELEASE_TAG_NAME }}'
-          BRANCH_NAME: '${{ github.ref }}'
