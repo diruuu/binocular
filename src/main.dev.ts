@@ -34,7 +34,11 @@ export default class AppUpdater {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
     autoUpdater.checkForUpdatesAndNotify();
-    if (process.env.RELEASE_TAG_NAME) {
+    if (
+      process.env.RELEASE_TAG_NAME &&
+      process.env.RELEASE_TAG_NAME !== '' &&
+      process.env.RELEASE_TAG_NAME !== 'latest'
+    ) {
       autoUpdater.channel = process.env.RELEASE_TAG_NAME;
     }
   }
