@@ -9,19 +9,24 @@ Where to download? Find the latest release on [the release page](https://github.
 
 ![Screenshot 2021-07-03 184715](https://user-images.githubusercontent.com/6884679/124353186-3ecb0c00-dc2f-11eb-8ee4-093474910418.png)
 
+## Getting started
+Open [instalation documentation](https://github.com/diruuu/binocular/wiki/Installation) to see to see how to install it on your Windows, macOs, or Linux machine.
+
 ## Documentation
-Open wiki to see the complete documentation of this software.
+Open [wiki](https://github.com/diruuu/binocular/wiki) to see the complete documentation of this software.
 
 ## Why this app? Why not the Binance official app?
+Two words, simplicity and risk management. Okay that's four words.
+
 The main reason for me to develop this app is to solve a lot of trading problems that I have when I am using Binance app and Tradingview. Binance official desktop app is amazing, don't get me wrong. But sometimes when doing day trading, it can be a pain in the ass just to enter a position and setup my stop loss and take profit order. There are many extra steps I need to do just to put one trade position. Basically in Binance app, I have to:
   1. Create buy order
   2. Calculate my stop loss and take profit position based on ATR indicator
   3. Create OCO order for my stop loss and take profit limit
   4. If I want to change my stop loss limit, I need to cancel my OCO order and create a new one
 
-Those extra steps could cost me losing trading momentum and it is something I couldn't afford. That's why I create Binocular to address this problem.
+Those extra steps could cost me losing trading momentum and it is something I couldn't afford. That's why I create Binocular to address those problems.
 
-With this app, you will basically have these features:
+With this app, you will basically have these features on your hand:
 
 -----
 ### Auto stop loss and take profit limit calculation
@@ -29,8 +34,24 @@ Stop loss and take profit limit are by default calculated based on average true 
 
 ![Screenshot 2021-07-03 185152a](https://user-images.githubusercontent.com/6884679/124353771-ac2c6c00-dc32-11eb-80ad-bf11e8ea1082.png)
 
+-----
+### Adjustable stop loss and take profit order
+With this app, if you want to change your stop loss or even your take profit position, you don't have to worry about canceling your OCO order and then create a new one anymore. This app will handle it for you. The stop loss and take profit position on the chart are draggable. You can basically move it anywhere you want and your OCO order in Binance will be automatically adjusted.
+
+![Screenshot 2021-07-03 185248d](https://user-images.githubusercontent.com/6884679/124354396-fbc06700-dc35-11eb-98b0-86227c21a0cc.png)
 
 -----
+### Monitor your trade history in one place
+Any trades that you made with Binocular can be monitored on the history section. You can see your past trades and your open positions. Not only that, on the history section you can also see how much profit or loss you made so you can keep track of all your positions.
+
+![Screenshot 2021-07-03 185152b](https://user-images.githubusercontent.com/6884679/124354557-c5371c00-dc36-11eb-945e-99156b05c752.png)
+
+-----
+### See price changes in realtime
+Price changes on all cryto pairs are displayed in realtime. You can favorite your favorite coins, you can sort them based on their prices, or even better, you can monitor their changes based on any klines intervals (1m, 5m, 15m, 1h, 1d, etc...) and then sort it by their changes. This is a good way for momentum trader to find crypto coins that are rising.
+
+![Screenshot 2021-07-03 185152c](https://user-images.githubusercontent.com/6884679/124354537-aa64a780-dc36-11eb-80e7-85410ddd8d03.png)
+
 
 
 ## How to run this project on your local development machine
