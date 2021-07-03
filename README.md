@@ -1,5 +1,8 @@
 # Binocular
 An opinionated Binance desktop client for crypto trading. Available for Windows, macOs and Linux.
+1. It's 100% free. Everyone can use it without limitation
+2. It's open source, everyone can see the full source codes and contribute or audit the project. (I figured this is the only way to gain trust from the community since many trading app out there will just scam you and steal your data)
+3. No additional server included. This is pure 3rd party client for Binance API. So this app is communicating directly to Binance without any additional server that can potentially steal your data.
 
 Where to download? Find the latest release on [the release page](https://github.com/diruuu/binocular/releases).
 
@@ -53,6 +56,8 @@ Price changes on all cryto pairs are displayed in realtime. You can favorite you
 ![Screenshot 2021-07-03 185152c](https://user-images.githubusercontent.com/6884679/124354537-aa64a780-dc36-11eb-80e7-85410ddd8d03.png)
 
 
-
 ## How to run this project on your local development machine
 This is for developers / contributors who want to contribute to this project. If you just want to use this app, this section is not for you. See documentation about [Instalation](https://github.com/diruuu/binocular/wiki/Installation) here if you want to know how to install this software on Windows, macOs or Linux.
+
+## How to support this project
+This is basically a one-man project. 
