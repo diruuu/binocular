@@ -1,5 +1,7 @@
 # Binocular
-An opinionated Binance desktop client for crypto trading. Available for Windows, macOs and Linux
+An opinionated Binance desktop client for crypto trading. Available for Windows, macOs and Linux.
+
+Where to download? Find the latest release on [the release page](https://github.com/diruuu/binocular/releases).
 
 | Latest                                                                                                                                                                                  | Beta                                                                                                                                                                                   | Alpha                                                                                                                                                                                   |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
