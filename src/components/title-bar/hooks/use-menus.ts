@@ -1,15 +1,17 @@
+import { ipcRenderer } from 'electron';
 import { useSnackbar } from 'notistack';
 import { useMemo } from 'react';
 import { useDispatch } from '../../../hooks';
 import { setModalOpen } from '../../../slices/settings-slice';
 import lang from '../../../utils/lang';
 
-function useMenu() {
+function useMenu(currentWindow: Electron.BrowserWindow) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const resetIndicators = () => {
     localStorage.removeItem('chart_data');
+    ipcRenderer.send('reset_chart');
     enqueueSnackbar(lang('RESET_INDICATOR_SUCCESS'), {
       variant: 'info',
     });
@@ -21,6 +23,7 @@ function useMenu() {
 
   const resetAll = () => {
     localStorage.clear();
+    ipcRenderer.send('reset_chart');
     enqueueSnackbar(lang('RESET_SUCCESS'), {
       variant: 'info',
     });
@@ -41,6 +44,13 @@ function useMenu() {
             label: 'Select All',
             accelerator: 'CmdOrCtrl+A',
             selector: 'selectAll:',
+          },
+          {
+            label: 'Reload',
+            accelerator: 'CmdOrCtrl+R',
+            click: () => {
+              currentWindow.webContents.reload();
+            },
           },
         ],
       },

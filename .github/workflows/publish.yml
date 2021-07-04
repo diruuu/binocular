@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
-
+      - beta
+      - alpha
+      
 jobs:
   publish:
+    environment: ${{ github.ref }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -33,7 +36,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-              
+
       - name: Install Charting Library
         run: |
           wget ${{ secrets.CHARTING_LIBRARY_ARCHIVE_URL }} --no-check-certificate
@@ -41,10 +44,15 @@ jobs:
           mv charting_library assets
           rm -rf charting_library.zip
 
+      - name: Update channel package.json version
+        run: |
+          node -e "let pkg=require('./src/package.json'); pkg.version=pkg.version + (process.env.RELEASE_TAG_NAME !== 'latest' ? '-' + process.env.RELEASE_TAG_NAME : ''); require('fs').writeFileSync('src/package.json', JSON.stringify(pkg, null, 2));"
+        env:
+          RELEASE_TAG_NAME: '${{ secrets.RELEASE_TAG_NAME }}'
+
       - name: Install dependencies
         run: |
           yarn install --prefer-offline
-
 
       - name: Publish releases
         env:
@@ -55,5 +63,6 @@ jobs:
           # CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           # This is used for uploading release assets to github
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG_NAME: '${{ secrets.RELEASE_TAG_NAME }}'
         run: |
           yarn package:publish

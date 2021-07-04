@@ -41,9 +41,16 @@ function useValidateForm({ orderFormGetters }: any) {
       ? parseFloat(minNotionalFilter.minNotional)
       : 0;
 
-    if (!orderFormGetters.amount || orderFormGetters.amount === '') {
+    if (
+      !orderFormGetters.amount ||
+      orderFormGetters.amount === '' ||
+      amount === 0
+    ) {
       failDebug = '0';
       isValid = false;
+    } else if (stopLoss === 0 || takeProfit === 0) {
+      isValid = false;
+      failDebug = '12';
     } else if (amount > balanceFloat) {
       failDebug = '2';
       isValid = false;

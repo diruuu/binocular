@@ -1,8 +1,8 @@
 {
   "name": "binocular",
   "productName": "Binocular",
-  "version": "1.2.0",
-  "description": "An opinionated Binance client for crypto trading.",
+  "version": "1.0.1",
+  "description": "An opinionated Binance client for crypto trading. GPL-3.0-or-later",
   "main": "./main.prod.js",
   "author": {
     "name": "Rudi Wahyudi",
@@ -13,8 +13,5 @@
     "electron-rebuild": "node -r ../.erb/scripts/BabelRegister.js ../.erb/scripts/ElectronRebuild.js",
     "postinstall": "yarn electron-rebuild"
   },
-  "license": "MIT",
-  "dependencies": {
-    "bnb-tx-decoder": "https://github.com/ferrumnet/bnb-tx-decoder"
-  }
+  "license": "GNU GPLv3"
 }

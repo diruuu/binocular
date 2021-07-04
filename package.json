@@ -1,7 +1,7 @@
 {
   "name": "binocular",
   "productName": "Binocular",
-  "description": "An opinionated Binance client for crypto trading.",
+  "description": "An opinionated Binance client for crypto trading. GPL-3.0-or-later",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
     "build:main": "cross-env NODE_ENV=production webpack --config ./.erb/configs/webpack.config.main.prod.babel.js",
@@ -9,7 +9,7 @@
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "package": "rm -rf src/dist && yarn build && electron-builder build --publish never",
-    "package:publish": "rm -rf src/dist && yarn build && electron-builder build --publish always --win",
+    "package:publish": "rm -rf src/dist && yarn build && electron-builder build --publish always --win --mac --linux",
     "postinstall": "node -r @babel/register .erb/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.babel.js && opencollective-postinstall && yarn-deduplicate yarn.lock",
     "start": "node -r @babel/register ./.erb/scripts/CheckPortInUse.js && yarn start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/BabelRegister ./src/main.dev.ts",
@@ -100,7 +100,7 @@
     "email": "diruuu@yahoo.com",
     "url": "https://github.com/diruuu/binocular"
   },
-  "license": "MIT",
+  "license": "GNU GPLv3",
   "bugs": {
     "url": "https://github.com/diruuu/binocular/issues"
   },
@@ -249,6 +249,7 @@
     "electron-debug": "3.1.0",
     "electron-localshortcut": "^3.2.1",
     "electron-log": "4.2.4",
+    "electron-store": "^8.0.0",
     "electron-updater": "4.3.9",
     "electronbar": "^2.0.0",
     "history": "5.0.0",
