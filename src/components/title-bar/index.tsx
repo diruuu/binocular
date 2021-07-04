@@ -10,20 +10,21 @@ import packageJSON from '../../package.json';
 
 function TitleBar() {
   const electronbarMount = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const menuTemplate = useMenu();
+  const window: Electron.BrowserWindow = remote.getCurrentWindow();
+  const menuTemplate = useMenu(window);
   const version = useSelector(selectVersion);
 
   useEffect(() => {
     // eslint-disable-next-line no-new
     new Electronbar({
-      electronRemote: remote, // for v1: electron
-      window: remote.getCurrentWindow(), // for v1: electron.remote.getCurrentWindow()
-      menu: remote.Menu.buildFromTemplate(menuTemplate), // for v1: electron.remote.Menu.buildFromTemplate(menuTemplate)
+      electronRemote: remote,
+      window,
+      menu: remote.Menu.buildFromTemplate(menuTemplate as any),
       mountNode: electronbarMount.current,
       title: `${packageJSON.productName} v.${version}`,
       icon: '../assets/icon.ico',
     });
-  }, [menuTemplate, version]);
+  }, [menuTemplate, version, window]);
 
   return <div ref={electronbarMount} />;
 }

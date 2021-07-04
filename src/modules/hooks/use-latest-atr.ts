@@ -45,50 +45,6 @@ function useLatestATR(
     });
   };
 
-  const getLastBar = async () => {
-    const tvWidget = chartRef.current;
-    const exportedData = await tvWidget
-      ?.activeChart()
-      .exportData({ includeTime: false, includedStudies: [] });
-    const schema = exportedData?.schema;
-    const lastBar = exportedData?.data[exportedData?.data.length - 1];
-    const value = schema?.map(({ plotTitle }: any, index) => {
-      const res = lastBar && lastBar[index];
-      return {
-        name: plotTitle,
-        value: res,
-      };
-    });
-    const formattedValue: ITickValue | undefined = value?.reduce(
-      (acc: ITickValue, bar) => {
-        return {
-          ...acc,
-          [bar.name]: bar.value,
-        };
-      },
-      {} as ITickValue
-    );
-    return formattedValue;
-  };
-
-  async function onInitialCalculation() {
-    try {
-      const lastBar = await getLastBar();
-      const ATR = await getLatestATRPromise();
-      const tick: ITickValue = {
-        open: lastBar?.open || 0,
-        close: lastBar?.close || 0,
-        low: lastBar?.low || 0,
-        high: lastBar?.high || 0,
-        atr: ATR,
-      };
-
-      dispatch(setTick(tick));
-    } catch (error) {
-      logger(error);
-    }
-  }
-
   const onTick = async (tickValue: ITickValue) => {
     let ATR = 0;
     try {

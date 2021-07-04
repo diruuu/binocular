@@ -11,6 +11,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
+import Store from 'electron-store';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import installExtension, {
   REDUX_DEVTOOLS,
@@ -21,6 +22,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import logger from './utils/logger';
+
+const store = new Store();
 
 app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
 app.disableHardwareAcceleration();
@@ -115,6 +118,19 @@ const createWindow = async () => {
 
   ipcMain.on('restart_app', () => {
     autoUpdater.quitAndInstall();
+  });
+
+  ipcMain.on('save_chart', (_event, data) => {
+    store.set('chart_data', data);
+  });
+
+  ipcMain.on('reset_chart', () => {
+    store.delete('chart_data');
+  });
+
+  ipcMain.handle('get_chart', () => {
+    const chart = store.get('chart_data');
+    return chart;
   });
 
   // @TODO: Use 'ready-to-show' event

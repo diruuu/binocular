@@ -58,9 +58,13 @@ const texts = {
     'Your take profit order on $1 has been partially filled.',
   BINANCE_SETTING_NOT_SET_YET: "Binance setting hasn't set yet",
   TOOK_PROFIT: 'Profit taken',
-  STOP_LIMIT: 'Stop limit',
+  STOP_LIMIT: 'On stop loss',
+  EXEC: 'Executing',
   SOLD: 'Sold',
   NO_SYMBOL_FOUND: 'No symbol found',
+  OCO_FAILED: 'Oco failed',
+  CANCELLED: 'Cancelled',
+  ON_LIMIT: 'On stop limit',
 };
 
 export default texts;

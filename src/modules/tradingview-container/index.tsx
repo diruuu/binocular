@@ -1,42 +1,31 @@
+/* eslint-disable promise/always-return */
+/* eslint-disable promise/catch-or-return */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useRef, useContext } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { ipcRenderer } from 'electron';
 import style from './index.scss';
 import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
   IChartingLibraryWidget,
   SymbolIntervalResult,
-  CrossHairMovedEventParams,
   Timezone,
 } from '../../../assets/charting_library/charting_library';
-import squezeMomentumIndicator from '../indicators/squezee-momentum';
 import supportResistance from '../indicators/support-resistance';
 import Datafeed from '../datafeeds';
-import { IBinanceTradeItem, ResString } from '../../types';
+import { ResString } from '../../types';
 import config from '../../config';
 import useLatestATR from '../hooks/use-latest-atr';
-import useLoadStudies from '../hooks/use-load-studies';
+import useSetStudyHeight from '../hooks/use-set-study-height';
 import useStoreInterval from '../hooks/use-store-interval';
-import useCreateOrderLine, {
-  OrderLineCallback,
-  OrderLineMoveCallback,
-} from '../hooks/use-create-order-line';
-import { useDispatch } from '../../hooks';
-import {
-  cancelOrderByGroupId,
-  setStopLossTakeProfitOnChartClick,
-  updateOCOByGroupId,
-} from '../../slices/order-form-slice';
-import {
-  selectActiveTradeList,
-  selectSymbolInfo,
-} from '../../slices/symbol-info-slice';
-import clearTrailingZero from '../../utils/clear-trailing-zero';
 import useStoreChartProperties from '../hooks/use-chart-properties';
-import DialogContext from '../../contexts/dialog-context';
+import useManualLimit from '../hooks/use-manual-limit';
+import useOrderLines from '../hooks/use-order-lines';
+import logger from '../../utils/logger';
+import lang from '../../utils/lang';
+import useLoadInitialIndicators from '../hooks/use-load-initial-indicators';
 
 export interface ChartContainerProps {
   symbol?: string;
@@ -67,165 +56,54 @@ const TVChartContainer = ({
   studiesOverrides = {},
   chartRef,
 }: ChartContainerProps) => {
-  const timePriceRef = useRef<{ time: number; price: number }>({
-    time: 0,
-    price: 0,
-  });
-
   // Hooks
-  const dispatch = useDispatch();
   const { watchPrice } = useLatestATR(chartRef);
-  const { loadStudies } = useLoadStudies(chartRef);
+  const { setStudyHeight } = useSetStudyHeight(chartRef);
   const { storedInterval } = useStoreInterval();
-  const dialogContextRef = useContext(DialogContext);
-  const { createOrderLine, resetOrderLine } = useCreateOrderLine(
-    chartRef,
-    dialogContextRef
-  );
-  const activeTradeList = useSelector(selectActiveTradeList);
-  const symbolInfo = useSelector(selectSymbolInfo);
   const storedProperties = useStoreChartProperties();
+  const initManualLimit = useManualLimit(chartRef);
+  const loadInitialIndicators = useLoadInitialIndicators(chartRef);
 
   const defaultTimezone =
     storedProperties.timezone ||
     Intl.DateTimeFormat().resolvedOptions().timeZone ||
     'exchange';
 
-  const activeTradeListIds = activeTradeList
-    ?.map(
-      (trade) =>
-        (trade.clientOrderId || '') +
-        trade.stopLossOrder?.orderId +
-        trade.takeProfitOrder?.orderId
-    )
-    ?.join();
+  useOrderLines(chartRef);
 
-  const onCancelOCOOrder = useCallback((result: OrderLineCallback) => {
-    dispatch(cancelOrderByGroupId(result.orderId, false));
-  }, []);
-
-  const onCancelAllOrder = useCallback((result: OrderLineCallback) => {
-    dispatch(cancelOrderByGroupId(result.orderId, true));
-  }, []);
-
-  const onMove = useCallback((result: OrderLineMoveCallback) => {
-    dispatch(
-      updateOCOByGroupId(
-        result.orderId,
-        result.stopLossPrice,
-        result.takeProfitPrice
-      )
-    );
-  }, []);
-
-  useEffect(() => {
-    if (!activeTradeList.length) {
-      return;
-    }
-    const id = new Date().getTime();
-    activeTradeList.forEach((trade: IBinanceTradeItem) => {
-      // Market order
-      createOrderLine(
-        {
-          price: parseFloat(trade.price),
-          quantity: `${clearTrailingZero(trade.origQuoteOrderQty || '0')} ${
-            symbolInfo?.quoteAsset
-          }`,
-          text: `Buy: #${trade.groupId}`,
-          onCancel: onCancelAllOrder,
-          color: '#F1BA10',
-          textColor: '#333',
-          orderId: trade.groupId?.toString() || '',
-        },
-        id
-      );
-
-      // Stop loss order
-      if (trade?.stopLossOrder) {
-        const price = parseFloat(trade?.stopLossOrder?.stopPrice || '0');
-        const buyPrice = parseFloat(trade.price);
-        const origQuoteOrderQty = parseFloat(trade.origQuoteOrderQty || '0');
-        const priceDiff = buyPrice - price;
-        const origQty = parseFloat(trade?.stopLossOrder?.origQty || '0');
-        const loss = origQty * priceDiff;
-        createOrderLine(
-          {
-            price,
-            quantity: `${(origQuoteOrderQty - loss).toFixed(2)} ${
-              symbolInfo?.quoteAsset
-            }`,
-            text: `Stop loss: #${trade?.stopLossOrder?.groupId}`,
-            onCancel: onCancelOCOOrder,
-            onMove,
-            color: '#f44336',
-            orderId: trade.groupId?.toString() || '',
-          },
-          id,
-          true
-        );
-      }
-
-      // Take profit order
-      if (trade?.takeProfitOrder) {
-        const price = parseFloat(trade?.takeProfitOrder?.price || '0');
-        const buyPrice = parseFloat(trade.price);
-        const origQuoteOrderQty = parseFloat(trade.origQuoteOrderQty || '0');
-        const priceDiff = price - buyPrice;
-        const origQty = parseFloat(trade?.takeProfitOrder?.origQty || '0');
-        const profit = origQty * priceDiff;
-        createOrderLine(
-          {
-            price,
-            quantity: `${(origQuoteOrderQty + profit).toFixed(2)} ${
-              symbolInfo?.quoteAsset
-            }`,
-            text: `Take profit: #${trade?.takeProfitOrder?.groupId}`,
-            onCancel: onCancelOCOOrder,
-            onMove,
-            color: '#009688',
-            orderId: trade.groupId?.toString() || '',
-          },
-          id,
-          true
-        );
-      }
-    });
-
-    return () => {
-      resetOrderLine(id);
-    };
-  }, [activeTradeListIds]);
-
-  const initContainer = useCallback(() => {
+  const initContainer = useCallback((chartData: Record<string, unknown>) => {
     const widgetOptions: ChartingLibraryWidgetOptions = {
       symbol,
       interval: storedInterval as ResolutionString,
-      // datafeed: new Datafeed(),
       datafeed: new Datafeed(),
       container: containerId as ChartingLibraryWidgetOptions['container'],
       library_path: libraryPath as string,
       locale: 'en',
       disabled_features: [
-        'header_saveload',
         'header_symbol_search',
         'timeframes_toolbar',
         'go_to_date',
+        'use_localstorage_for_settings',
+        'save_chart_properties_to_local_storage',
+        'study_dialog_search_control',
+        'header_saveload',
+        'symbol_search_hot_key',
       ],
       enabled_features: [],
+      saved_data: chartData,
       client_id: clientId,
       user_id: userId,
       fullscreen,
       autosize,
       studies_overrides: studiesOverrides,
+      auto_save_delay: 2,
       time_frames: [],
+      load_last_chart: true,
       timezone: defaultTimezone as Timezone,
       theme: 'Dark',
       custom_css_url: '../charting_library.css',
       custom_indicators_getter(PineJS) {
-        return Promise.resolve([
-          squezeMomentumIndicator(PineJS),
-          supportResistance(PineJS),
-        ]);
+        return Promise.resolve([supportResistance(PineJS)]);
       },
     };
 
@@ -235,32 +113,39 @@ const TVChartContainer = ({
     tvWidget.onChartReady(async () => {
       await tvWidget.headerReady();
 
-      loadStudies();
+      // Load default indicators if chart data is not stored yet
+      if (!chartData) {
+        loadInitialIndicators();
+      }
+
+      setStudyHeight();
       watchPrice();
+      initManualLimit();
 
-      tvWidget.subscribe('mouse_down', () => {
-        dispatch(setStopLossTakeProfitOnChartClick(timePriceRef.current.price));
-      });
-
-      tvWidget
-        ?.chart()
-        .crossHairMoved(({ time, price }: CrossHairMovedEventParams) => {
-          timePriceRef.current.time = time;
-          timePriceRef.current.price = price;
+      tvWidget.subscribe('onAutoSaveNeeded', () => {
+        logger(lang('SAVING_CHART_DATA'));
+        tvWidget.save((data) => {
+          ipcRenderer.send('save_chart', data);
         });
+      });
     });
 
     return tvWidget;
   }, []);
 
-  useEffect(() => {
-    const tvWidget = initContainer();
+  const initChartingLibrary = useCallback(async () => {
+    const chartData = await ipcRenderer.invoke('get_chart');
+    const tvWidget = initContainer(chartData);
     chartRef.current = tvWidget;
     return () => {
       if (chartRef.current !== null) {
         chartRef.current?.remove();
       }
     };
+  }, []);
+
+  useEffect(() => {
+    initChartingLibrary();
   }, []);
 
   useEffect(() => {
