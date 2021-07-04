@@ -11,23 +11,23 @@ function useLoadInitialIndicators(
 
   const loadInitialIndicators = async () => {
     logger(lang('INITIAL_SETUP_INDICATOR'));
-    chartRef.current
+    await chartRef.current
       ?.activeChart()
       .createStudy('Relative Strength Index', false, false, [14]);
-    chartRef.current
+    await chartRef.current
       ?.activeChart()
       .createStudy('Average True Range', false, false);
-    chartRef.current?.activeChart().createStudy('MACD', false, false);
-    chartRef.current
+    await chartRef.current?.activeChart().createStudy('MACD', false, false);
+    await chartRef.current
       ?.activeChart()
       .createStudy('Support/Resistance', false, false);
 
-    chartRef.current
+    await chartRef.current
       ?.activeChart()
       .createStudy('Moving Average Exponential', false, false, [5], {
         'plot.color': 'rgb(144, 202, 249)',
       });
-    chartRef.current
+    await chartRef.current
       ?.activeChart()
       .createStudy('Moving Average Exponential', false, false, [15], {
         'plot.color': 'rgb(255, 204, 128)',

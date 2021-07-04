@@ -115,7 +115,7 @@ const TVChartContainer = ({
 
       // Load default indicators if chart data is not stored yet
       if (!chartData) {
-        loadInitialIndicators();
+        await loadInitialIndicators();
       }
 
       setStudyHeight();
