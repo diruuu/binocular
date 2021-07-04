@@ -1,8 +1,8 @@
-function nextTick(): Promise<true> {
+function nextTick(ms = 0): Promise<true> {
   return new Promise((resolve) => {
     setTimeout(async () => {
       resolve(true);
-    }, 0);
+    }, ms);
   });
 }
 

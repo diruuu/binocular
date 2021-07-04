@@ -1,0 +1,13 @@
+.noDrag {
+  -webkit-app-region: no-drag;
+  user-select: none;
+  z-index: 1000;
+  cursor: not-allowed;
+  background-color: var(--title-bar-bg);
+  color: var(--text-grey);
+}
+
+.drag {
+  cursor: move;
+  -webkit-app-region: drag;
+}

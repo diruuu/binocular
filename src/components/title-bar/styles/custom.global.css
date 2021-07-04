@@ -1,8 +1,6 @@
 .electronbar {
   font-size: 13px;
-  color: var(--text-grey);
   font-weight: 500;
-  background-color: #0b0e11;
 }
 
 .electronbar-top-menu-item-label,

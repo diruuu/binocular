@@ -1,7 +1,7 @@
 {
   "name": "binocular",
   "productName": "Binocular",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An opinionated Binance client for crypto trading. GPL-3.0-or-later",
   "main": "./main.prod.js",
   "author": {
