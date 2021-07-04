@@ -1,10 +1,7 @@
-import useLocalStorage from '../../hooks/use-local-storage';
-
 function useStoreInterval() {
-  const [storedInterval] = useLocalStorage<string>(
-    'tradingview.chart.lastUsedTimeBasedResolution',
-    '15'
-  );
+  const storedInterval =
+    localStorage.getItem('tradingview.chart.lastUsedTimeBasedResolution') ||
+    '15';
 
   return { storedInterval };
 }
