@@ -221,7 +221,7 @@ function useCreateOrderLine(
   }
 
   const resetOrderLine = async (id: number) => {
-    await until(() => !!orderLineRef.current[id]?.length);
+    await until('RESET_ORDER_LINE', () => !!orderLineRef.current[id]?.length);
     orderLineRef.current[id]?.forEach((orderLine: IOrderLineAdapter) => {
       orderLine.remove();
     });
