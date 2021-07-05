@@ -4,7 +4,7 @@ import { MdRefresh } from 'react-icons/md';
 import { useTable, useBlockLayout, useSortBy } from 'react-table';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import { Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import classNames from 'classnames';
 import useColumn from './hooks/use-column';
 import styles from './styles.scss';
@@ -15,6 +15,7 @@ import {
   fetchAllSymbols,
   selectSymbolList,
   selectIsFetchingSymbols,
+  prependSymbol,
 } from '../../slices/symbol-list-slice';
 import {
   selectBookmarkList,
@@ -113,6 +114,18 @@ function TickerList() {
     setFiatCurrency(value);
   }, []);
 
+  const onAddSymbol = useCallback(() => {
+    const searchValueUppercase = searchValue?.toUpperCase();
+    setSearchValue('');
+    dispatch(
+      prependSymbol({
+        symbol: searchValueUppercase,
+        price: '0',
+        bookmarked: 1,
+      })
+    );
+  }, [dispatch, searchValue]);
+
   return (
     <div className={styles.wrapper}>
       <Grid container spacing={2}>
@@ -174,6 +187,15 @@ function TickerList() {
       {!isFetchingSymbols && !sortedRows.length && (
         <div className={styles.centered}>
           <Text>{lang('NO_SYMBOL_FOUND')}</Text>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={onAddSymbol}
+            className={styles.addSymbolButton}
+          >
+            Add symbol
+          </Button>
         </div>
       )}
       {!isFetchingSymbols && !!sortedRows.length && (
