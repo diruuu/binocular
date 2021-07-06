@@ -4,9 +4,12 @@ import { AppThunk, RootState } from '../store';
 import { IOrderData } from '../types';
 import lang from '../utils/lang';
 import logger from '../utils/logger';
+import { selectBalanceByNameParsed } from './account-slice';
 import { selectCredential } from './settings-slice';
 import { appendSnackbar } from './snackbar-slice';
 import {
+  getExecutedQtyWithCommission,
+  selectSymbolInfo,
   selectTick,
   selectTickSizeDecimals,
   selectTradeListByGroupId,
@@ -196,6 +199,7 @@ export const cancelMarketOrderByGroupId = (groupId: string): AppThunk => async (
   try {
     const states = getState();
     const credentials = selectCredential(states);
+    const baseAsset = selectSymbolInfo(states);
     if (!credentials) {
       throw new Error(lang('NO_CREDENTIAL_FOUND'));
     }
@@ -212,11 +216,17 @@ export const cancelMarketOrderByGroupId = (groupId: string): AppThunk => async (
       })
     );
 
+    const balance = selectBalanceByNameParsed(baseAsset?.baseAsset)(states);
+    const origQty = marketOrder.origQty ? parseFloat(marketOrder.origQty) : 0;
+
+    const qty = Math.min(origQty, balance);
+    const quoteOrderFinal = getExecutedQtyWithCommission(qty)(states);
+
     const sellingOrder: IOrderData = {
       symbol: marketOrder.symbol,
       orderId: `market-sell-${groupId}`,
       side: 'SELL',
-      quantity: parseFloat(marketOrder.executedQty),
+      quantity: quoteOrderFinal,
     };
     const marketSellResult = await BinanceRest.instance.sendOrder(
       sellingOrder,
@@ -313,14 +323,24 @@ export const sendOrder = (orderData: IOrderData): AppThunk => async (
       side: 'BUY',
     };
     dispatch(setSendingOrder(true));
-    const { executedQty, orderId } = await BinanceRest.instance.sendOrder(
+    const { origQty, orderId } = await BinanceRest.instance.sendOrder(
       order,
       credentials
     );
+
+    const baseAsset = selectSymbolInfo(state);
+    const origQtyNum = parseFloat(origQty);
+    const balance = await BinanceRest.instance.getBalanceByName(
+      credentials,
+      baseAsset?.baseAsset
+    );
+    const qty = Math.min(origQtyNum, balance);
+    const quoteOrderFinal = getExecutedQtyWithCommission(qty)(state);
+
     const ocoOrder: IOrderData = {
       ...orderData,
       side: 'SELL',
-      quoteOrderQty: parseFloat(executedQty),
+      quoteOrderQty: quoteOrderFinal,
       orderId: orderId?.toString(),
     };
     const result = await BinanceRest.instance.sendOcoOrder(

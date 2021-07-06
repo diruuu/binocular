@@ -29,7 +29,9 @@ export const getListenKey = (): AppThunk => async (dispatch, getState) => {
   }
 };
 
-export const getAccountBalance = (): AppThunk => async (dispatch, getState) => {
+export const getAccountBalance = (
+  onReceivedInfo?: () => void
+): AppThunk => async (dispatch, getState) => {
   try {
     const states = getState();
     const credentials = selectCredential(states);
@@ -43,8 +45,12 @@ export const getAccountBalance = (): AppThunk => async (dispatch, getState) => {
         accountType: accountInfo.accountType,
         canTrade: accountInfo.canTrade,
         permissions: accountInfo.permissions,
+        makerCommission: accountInfo.makerCommission,
       })
     );
+    if (onReceivedInfo) {
+      onReceivedInfo();
+    }
   } catch (error) {
     logger(error);
     dispatch(
