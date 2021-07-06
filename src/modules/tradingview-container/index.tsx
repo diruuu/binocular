@@ -1,16 +1,11 @@
-/* eslint-disable promise/always-return */
-/* eslint-disable promise/catch-or-return */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable react/no-this-in-sfc */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
+import moment from 'moment';
 import style from './index.scss';
 import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
   IChartingLibraryWidget,
-  SymbolIntervalResult,
   Timezone,
 } from '../../../assets/charting_library/charting_library';
 import supportResistance from '../indicators/support-resistance';
@@ -26,6 +21,8 @@ import useOrderLines from '../hooks/use-order-lines';
 import logger from '../../utils/logger';
 import lang from '../../utils/lang';
 import useLoadInitialIndicators from '../hooks/use-load-initial-indicators';
+import useOnSymbolChange from '../hooks/use-on-symbol-change';
+import useOnDataReady from '../hooks/use-on-data-ready';
 
 export interface ChartContainerProps {
   symbol?: string;
@@ -57,12 +54,13 @@ const TVChartContainer = ({
   chartRef,
 }: ChartContainerProps) => {
   // Hooks
-  const { watchPrice } = useLatestATR(chartRef);
+  const { watchPrice, updateTickData } = useLatestATR(chartRef);
   const { setStudyHeight } = useSetStudyHeight(chartRef);
   const { storedInterval } = useStoreInterval();
   const storedProperties = useStoreChartProperties();
   const initManualLimit = useManualLimit(chartRef);
   const loadInitialIndicators = useLoadInitialIndicators(chartRef);
+  const initOnDataReady = useOnDataReady(chartRef);
 
   const defaultTimezone =
     storedProperties.timezone ||
@@ -111,6 +109,10 @@ const TVChartContainer = ({
     const tvWidget: IChartingLibraryWidget = new Widget(widgetOptions);
 
     tvWidget.onChartReady(async () => {
+      initOnDataReady(async () => {
+        updateTickData();
+      });
+
       await tvWidget.headerReady();
 
       // Load default indicators if chart data is not stored yet
@@ -148,18 +150,7 @@ const TVChartContainer = ({
     initChartingLibrary();
   }, []);
 
-  useEffect(() => {
-    chartRef.current?.onChartReady(() => {
-      const symbolInterval:
-        | SymbolIntervalResult
-        | undefined = chartRef.current?.symbolInterval();
-      chartRef.current?.setSymbol(
-        symbol,
-        symbolInterval?.interval || (storedInterval as ResolutionString),
-        () => {}
-      );
-    });
-  }, [symbol]);
+  useOnSymbolChange(chartRef, symbol);
 
   return <div id={containerId} className={style.TVChartContainer} />;
 };
