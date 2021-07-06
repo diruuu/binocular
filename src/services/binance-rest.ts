@@ -66,25 +66,6 @@ class BinanceRest {
     return latestTimestamp;
   }
 
-  async getTransactionDetail(key: string): Promise<IBinanceTx | undefined> {
-    const priceLog = await axios(config.priceLogUrl);
-    const priceLogData: { [key: string]: string } = priceLog.data;
-    const latestTimestamp: number = this.getLatestTimestampFromPriceLog(
-      priceLogData
-    );
-    if (!latestTimestamp) {
-      return;
-    }
-    const latestPrice = parseFloat(priceLogData[latestTimestamp]);
-    const result = await axios(`${config.txCheckEndpoint}${key}`);
-    const resultData: IBinanceTx = result.data;
-    if (!resultData) {
-      throw new Error(lang('LICENSE_KEY_NOT_VALID'));
-    }
-    resultData.price = latestPrice;
-    return resultData;
-  }
-
   async getAccountInfo(
     credential: APICredentialInfo
   ): Promise<IBinanceAccount> {
@@ -105,6 +86,17 @@ class BinanceRest {
       }
     );
     return result;
+  }
+
+  async getBalanceByName(
+    credentials: APICredentialInfo,
+    baseAsset?: string
+  ): Promise<number> {
+    const accountInfo = await BinanceRest.instance.getAccountInfo(credentials);
+    const balance = accountInfo.balances?.find((bal) => bal.asset === baseAsset)
+      ?.free;
+    const balanceNum: number = balance ? parseFloat(balance) : 0;
+    return balanceNum;
   }
 
   async getTradeInfo(
