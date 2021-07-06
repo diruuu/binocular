@@ -8,6 +8,7 @@ import {
   ITickValue,
   IBinanceTradeItem,
   IBinancePercentPriceFilter,
+  IBinanceLotSizeFilter,
 } from '../types';
 import { appendSnackbar } from './snackbar-slice';
 import clearTrailingZero from '../utils/clear-trailing-zero';
@@ -16,6 +17,10 @@ import { selectBuyList } from './selectors/symbol-info-selectors';
 import logger from '../utils/logger';
 import { selectCredential } from './settings-slice';
 import reverseArray from '../utils/reverse-array';
+import { selectMakerCommission } from './selectors/account-selectors';
+import toFixedExactly from '../utils/to-fixed-exactly';
+import config from '../config';
+import { selectBalanceByNameParsed } from './account-slice';
 
 interface ISymbolInfoState {
   symbol: IBinanceSymbolInfo | null;
@@ -190,6 +195,13 @@ export const selectSymbol = (state: RootState): string | undefined => {
   return symbolInfo?.symbol;
 };
 
+export const selectBaseAssetPrecision = (
+  state: RootState
+): number | undefined => {
+  const symbolInfo = selectSymbolInfo(state);
+  return symbolInfo?.baseAssetPrecision;
+};
+
 export const selectTradeList = (state: RootState): IBinanceTradeItem[] => {
   return state.symbolInfo.tradeList;
 };
@@ -275,6 +287,13 @@ export const selectPercentPrice = (
   return filter;
 };
 
+export const selectLotSize = (
+  state: RootState
+): IBinanceLotSizeFilter | undefined => {
+  const filter = selectFilter<IBinanceLotSizeFilter>('LOT_SIZE')(state);
+  return filter;
+};
+
 export const selectMinPrice = (state: RootState): number => {
   const filterPrice = selectPriceFilter(state);
   const minPrice = filterPrice?.minPrice || '0';
@@ -311,6 +330,21 @@ export const selectTick = (
 export const selectLastPrice = (state: RootState): number => {
   const tick = selectTick(state);
   return tick.close;
+};
+
+export const getExecutedQtyWithCommission = (qty: number) => (
+  state: RootState
+): number => {
+  const stepSize = selectLotSize(state)?.stepSize || '0';
+  const lotSize = clearTrailingZero(stepSize);
+  const lotDecimal = countDecimals(lotSize);
+  const baseAssetPrecision = selectBaseAssetPrecision(state) || 0;
+  const precision = Math.min(baseAssetPrecision, lotDecimal);
+  const quoteOrderQtyWithCommissionString: string = clearTrailingZero(
+    toFixedExactly(`${qty}`, precision)
+  );
+  const quoteOrderFinal = parseFloat(quoteOrderQtyWithCommissionString);
+  return quoteOrderFinal;
 };
 
 export default symbolInfoSlice.reducer;
