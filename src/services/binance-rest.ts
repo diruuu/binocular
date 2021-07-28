@@ -79,7 +79,9 @@ class BinanceRest {
     const result: IBinanceAccount = await request(
       RequestTypes.GET,
       `${binanceSettings.RESTApiBaseUrl}/account`,
-      {},
+      {
+        recvWindow: 60000,
+      },
       {
         apiCredentials: credential,
         includePremadeDataInBody: true,
@@ -115,6 +117,7 @@ class BinanceRest {
       `${binanceSettings.RESTApiBaseUrl}/allOrders`,
       {
         symbol,
+        recvWindow: 60000,
       },
       {
         apiCredentials: credential,
