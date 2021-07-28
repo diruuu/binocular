@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import { AppThunk, RootState } from '../store';
 import { IBinanceBalance, OutboundPositionBalance } from '../types';
 import clearTrailingZero from '../utils/clear-trailing-zero';
@@ -16,6 +14,7 @@ interface IAccountStateRAW {
   accountType: string;
   canTrade: boolean;
   permissions: ('SPOT' | 'MARGIN')[];
+  makerCommission: number;
 }
 
 interface IAccountState extends IAccountStateRAW {
@@ -30,6 +29,7 @@ const initialState: IAccountState = {
   listenKey: null,
   listenKeyUpdatedAt: 0,
   permissions: ['SPOT'],
+  makerCommission: 0,
 };
 
 export const accountSlice = createSlice({
@@ -41,6 +41,7 @@ export const accountSlice = createSlice({
       state.accountType = action.payload.accountType;
       state.canTrade = action.payload.canTrade;
       state.permissions = action.payload.permissions;
+      state.makerCommission = action.payload.makerCommission;
     },
     updateBalance: (
       state,
@@ -88,6 +89,19 @@ export const selectBalanceByName = (asset: string | undefined) => (
     return clearTrailingZero(balance.free);
   }
   return '0';
+};
+
+export const selectBalanceByNameParsed = (asset: string | undefined) => (
+  state: RootState
+): number => {
+  const balance = selectBalanceByName(asset)(state);
+  if (balance) {
+    const parsed = parseFloat(balance);
+    if (!Number.isNaN(parsed)) {
+      return parsed;
+    }
+  }
+  return 0;
 };
 
 export const checkListenKey = (): AppThunk => async (dispatch, getState) => {

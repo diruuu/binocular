@@ -5,6 +5,10 @@ export const selectBalances = (state: RootState): IBinanceBalance[] => {
   return state.account.balances;
 };
 
+export const selectMakerCommission = (state: RootState): number => {
+  return state.account.makerCommission / 10000;
+};
+
 export const selectListenKey = (state: RootState): string | null => {
   return state.account.listenKey;
 };

@@ -26,6 +26,9 @@ export const symbolListSlice = createSlice({
     populateSymbolList: (state, action: PayloadAction<BinancePrice[]>) => {
       state.list = action.payload;
     },
+    prependSymbol: (state, action: PayloadAction<BinancePrice>) => {
+      state.list = [action.payload, ...state.list];
+    },
     resetSymbolList: (state) => {
       state.list = initialState.list;
     },
@@ -39,6 +42,7 @@ export const {
   populateSymbolList,
   resetSymbolList,
   setFetchingSymbol,
+  prependSymbol,
 } = symbolListSlice.actions;
 
 export const selectSymbolList = (state: RootState): BinancePrice[] => {

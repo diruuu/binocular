@@ -64,6 +64,12 @@
   justify-content: center;
   display: flex;
   flex: 1;
+  flex-direction: column;
+}
+
+.addSymbolButton {
+  margin-top: 10px !important;
+  font-size: 13px !important;
 }
 
 .rowGroup {

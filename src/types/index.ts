@@ -172,6 +172,13 @@ export interface IBinancePercentPriceFilter {
   avgPriceMins: number;
 }
 
+export interface IBinanceLotSizeFilter {
+  filterType: string;
+  minQty: string;
+  maxQty: string;
+  stepSize: string;
+}
+
 export interface IBinanceSymbolInfo {
   baseAsset: string;
   baseAssetPrecision: number;

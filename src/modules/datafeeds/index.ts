@@ -143,7 +143,7 @@ class Datafeed implements IBasicDataFeed {
         const symbolInfo = selectSymbolInfo(state);
         return symbolInfo?.symbol === symbolName;
       };
-      await until(() => isDataLoaded());
+      await until('RESOLVE_SYMBOL', () => isDataLoaded());
       const state = store.getState();
       const tickSize = selectTickSize(state);
       const priceScale = this.getPriceScale(tickSize.toString());
